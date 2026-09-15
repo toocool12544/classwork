@@ -256,9 +256,13 @@ export default function App() {
               <Compass className="w-7 h-7" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-lg font-bold text-white">No games found</h3>
+              <h3 className="text-lg font-bold text-white">
+                {games.length === 0 ? 'No games in library' : 'No games found'}
+              </h3>
               <p className="text-sm text-slate-400 max-w-md mx-auto">
-                {searchQuery
+                {games.length === 0
+                  ? 'All games have been removed. Click "Add New Game" or import your games.json file to add games.'
+                  : searchQuery
                   ? `No games match "${searchQuery}". Try a different keyword or add a new game iframe.`
                   : activeCategory === 'Favorites'
                   ? "You haven't added any favorites yet! Click the heart icon on any game card to pin it here."
@@ -274,7 +278,7 @@ export default function App() {
                   Clear Search
                 </button>
               )}
-              {activeCategory !== 'All' && (
+              {activeCategory !== 'All' && games.length > 0 && (
                 <button
                   onClick={() => setActiveCategory('All')}
                   className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold text-white transition-colors cursor-pointer"
@@ -289,6 +293,15 @@ export default function App() {
                 <Plus className="w-4 h-4 stroke-[3]" />
                 Add New Game
               </button>
+              {games.length === 0 && (
+                <button
+                  onClick={() => setIsJsonModalOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-semibold text-cyan-300 border border-slate-700 transition-colors cursor-pointer flex items-center gap-1.5"
+                >
+                  <Code className="w-4 h-4 text-cyan-400" />
+                  Import games.json
+                </button>
+              )}
             </div>
           </div>
         )}

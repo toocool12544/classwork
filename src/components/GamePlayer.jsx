@@ -190,8 +190,8 @@ export function GamePlayer({
           id="active-game-iframe"
           src={game.url}
           title={game.title}
-          allow="fullscreen; autoplay; gamepad; keyboard-lock; accelerometer; gyroscope; cross-origin-isolated"
-          sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-pointer-lock"
+          allow={game.allow || "fullscreen; autoplay; gamepad; keyboard-lock; accelerometer; gyroscope; camera; microphone; display-capture; cross-origin-isolated"}
+          sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-pointer-lock allow-modals"
           className="w-full h-full flex-1 border-0 bg-black"
           onLoad={() => setIsLoading(false)}
         />

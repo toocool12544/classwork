@@ -5,25 +5,41 @@ const CUSTOM_GAMES_STORAGE_KEY = 'unblocked_games_custom_v1';
 
 export function parseIframeSource(input) {
   const trimmed = input.trim();
+  let extractedUrl = '';
+  let iframeHtml = '';
   
   // If it is already an iframe tag: <iframe ... src="..." ...>
   if (trimmed.startsWith('<iframe') || trimmed.includes('<iframe')) {
     const srcMatch = trimmed.match(/src=["']([^"']+)["']/i);
-    const extractedUrl = srcMatch ? srcMatch[1] : '';
-    return {
-      url: extractedUrl,
-      iframeHtml: trimmed,
-    };
+    extractedUrl = srcMatch ? srcMatch[1] : '';
+    iframeHtml = trimmed;
+  } else {
+    // If it's just a regular URL:
+    extractedUrl = trimmed.startsWith('http://') || trimmed.startsWith('https://') 
+      ? trimmed 
+      : `https://${trimmed}`;
+    iframeHtml = `<iframe src="${extractedUrl}" width="100%" height="600" frameborder="0" allow="fullscreen; autoplay; gamepad; keyboard" allowfullscreen></iframe>`;
   }
 
-  // If it's just a regular URL:
-  const validUrl = trimmed.startsWith('http://') || trimmed.startsWith('https://') 
-    ? trimmed 
-    : `https://${trimmed}`;
+  // If the extracted URL contains an embedded 'url=' parameter (e.g. tracking pixels or redirects)
+  if (extractedUrl.includes('partnerpixels?url=') || extractedUrl.includes('?url=') || extractedUrl.includes('&url=')) {
+    try {
+      const match = extractedUrl.match(/[?&]url=([^&]+)/i);
+      if (match && match[1]) {
+        const decoded = decodeURIComponent(match[1]);
+        if (decoded.startsWith('http://') || decoded.startsWith('https://')) {
+          extractedUrl = decoded;
+          iframeHtml = `<iframe src="${extractedUrl}" width="100%" height="600" frameborder="0" allow="fullscreen; autoplay; gamepad; keyboard" allowfullscreen></iframe>`;
+        }
+      }
+    } catch {
+      // Keep original
+    }
+  }
 
   return {
-    url: validUrl,
-    iframeHtml: `<iframe src="${validUrl}" width="100%" height="600" frameborder="0" allow="fullscreen; autoplay; gamepad; keyboard" allowfullscreen></iframe>`,
+    url: extractedUrl,
+    iframeHtml: iframeHtml,
   };
 }
 

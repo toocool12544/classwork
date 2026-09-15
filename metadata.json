@@ -1,6 +1,6 @@
 {
   "name": "Unblocked Games Portal",
   "description": "A fast, clean unblocked games portal embedding HTML5 games via JSON iframe configurations with search, categories, favorites, and custom game support.",
-  "requestFramePermissions": [],
+  "requestFramePermissions": ["camera", "microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
