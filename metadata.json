@@ -1,6 +1,6 @@
 {
   "name": "Proxy Dash",
-  "description": "Proxy Dash - Fast unblocked games and interactive FAHHHHH soundboard hub featuring HTML5 games, viral FAHHHHH sound effects, and light blue aurora theming.",
+  "description": "Welcome to Proxy Dash - Fast, modern unblocked web portal featuring HTML5 games, custom links, and light blue aurora atmosphere.",
   "requestFramePermissions": ["camera", "microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
