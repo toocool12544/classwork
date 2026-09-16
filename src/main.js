@@ -3,7 +3,7 @@
  * Pure JavaScript, standalone compatible for GitHub Pages & Vite
  */
 
-// Initial default catalog with Omoggle
+// Initial default catalog with Omoggle and YouTube Player
 const DEFAULT_GAMES = [
   {
     id: "omoggle",
@@ -18,6 +18,20 @@ const DEFAULT_GAMES = [
     color: "from-purple-600 to-indigo-800",
     badge: "Featured",
     plays: 2480
+  },
+  {
+    id: "youtube-player",
+    title: "YouTube Player",
+    category: "Media",
+    description: "Watch YouTube videos, game walkthroughs, music, and streams in an embedded player.",
+    iframe: '<iframe width="100%" height="450" src="https://www.youtube.com/embed/VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    url: "https://www.youtube.com/embed/VIDEO_ID",
+    allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen",
+    controls: "Media Controls & Keyboard",
+    thumbnail: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=80",
+    color: "from-red-600 to-rose-800",
+    badge: "New",
+    plays: 1540
   }
 ];
 
@@ -210,6 +224,7 @@ function renderCategories() {
     { key: 'All', label: 'All Games', icon: 'layers' },
     { key: 'Favorites', label: 'Favorites', icon: 'heart' },
     { key: 'Arcade', label: 'Arcade', icon: 'gamepad' },
+    { key: 'Media', label: 'Media', icon: 'play' },
     { key: 'Puzzle', label: 'Puzzle', icon: 'puzzle' },
     { key: 'Retro', label: 'Retro', icon: 'history' },
     { key: 'Action', label: 'Action', icon: 'zap' },
@@ -425,6 +440,20 @@ export function openGamePlayer(game) {
   if (footerDirect) footerDirect.href = game.url;
 
   updatePlayerFavButton();
+
+  const ytToolbar = document.getElementById('player-youtube-toolbar');
+  const isYouTube = game.id === 'youtube-player' || (game.url && game.url.includes('youtube.com/embed'));
+  if (ytToolbar) {
+    if (isYouTube) {
+      ytToolbar.classList.remove('hidden');
+      const ytInput = document.getElementById('youtube-url-input');
+      if (ytInput) {
+        ytInput.value = (game.url && !game.url.includes('VIDEO_ID')) ? game.url : '';
+      }
+    } else {
+      ytToolbar.classList.add('hidden');
+    }
+  }
 
   // Configure permissions for Omoggle and rich HTML5 games
   const allowAttr = game.allow || "camera; microphone; display-capture; fullscreen; autoplay; gamepad; keyboard-lock; accelerometer; gyroscope; cross-origin-isolated";
@@ -798,6 +827,55 @@ function setupPlayerControls() {
       if (selectedGame) {
         toggleFavorite(selectedGame.id);
       }
+    };
+  }
+
+  // YouTube toolbar interactions
+  const ytLoadBtn = document.getElementById('load-youtube-btn');
+  const ytInput = document.getElementById('youtube-url-input');
+  const ytPresetLofi = document.getElementById('yt-preset-lofi');
+  const ytPresetGame = document.getElementById('yt-preset-gameplay');
+
+  function extractYouTubeId(urlOrId) {
+    const trimmed = (urlOrId || '').trim();
+    if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
+    const match = trimmed.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/i);
+    return match ? match[1] : trimmed;
+  }
+
+  const playYouTubeVideo = (inputVal) => {
+    const iframe = document.getElementById('active-game-iframe');
+    const spinner = document.getElementById('player-loading-spinner');
+    if (!iframe) return;
+    const cleanId = extractYouTubeId(inputVal);
+    if (cleanId) {
+      if (spinner) spinner.classList.remove('hidden');
+      iframe.src = `https://www.youtube.com/embed/${cleanId}?autoplay=1`;
+      if (ytInput) ytInput.value = `https://www.youtube.com/watch?v=${cleanId}`;
+    }
+  };
+
+  if (ytLoadBtn && ytInput) {
+    ytLoadBtn.onclick = () => {
+      if (ytInput.value) playYouTubeVideo(ytInput.value);
+    };
+    ytInput.onkeydown = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (ytInput.value) playYouTubeVideo(ytInput.value);
+      }
+    };
+  }
+
+  if (ytPresetLofi) {
+    ytPresetLofi.onclick = () => {
+      playYouTubeVideo('jfKfPfyJRdk');
+    };
+  }
+
+  if (ytPresetGame) {
+    ytPresetGame.onclick = () => {
+      playYouTubeVideo('DWcJFNfaw9c');
     };
   }
 
