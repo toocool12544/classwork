@@ -1,5 +1,5 @@
 /**
- * Unblocked Games Portal - Core Application Entry Point
+ * Proxy Dash - Core Application Entry Point
  * Pure JavaScript, standalone compatible for GitHub Pages & Vite
  */
 
@@ -230,7 +230,7 @@ function renderCategories() {
         data-category="${cat.key}"
         class="category-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer border ${
           isActive
-            ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/20 font-bold'
+            ? 'bg-sky-400 text-slate-950 border-sky-300 shadow-md shadow-sky-500/25 font-bold'
             : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white hover:border-slate-700'
         }"
       >
@@ -346,7 +346,7 @@ function renderGamesGrid() {
           </div>
 
           <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 z-10">
-            <div class="w-13 h-13 rounded-2xl bg-emerald-500 text-slate-950 flex items-center justify-center shadow-xl shadow-emerald-500/50 transform scale-90 group-hover:scale-100 transition-transform">
+            <div class="w-13 h-13 rounded-2xl bg-sky-400 text-slate-950 flex items-center justify-center shadow-xl shadow-sky-500/50 transform scale-90 group-hover:scale-100 transition-transform">
               <svg class="w-6 h-6 fill-slate-950 ml-1" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>
             </div>
           </div>
@@ -355,7 +355,7 @@ function renderGamesGrid() {
         <div class="p-4 flex-1 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between gap-2">
-              <h3 class="font-bold text-base text-white group-hover:text-emerald-300 transition-colors line-clamp-1">
+              <h3 class="font-bold text-base text-white group-hover:text-sky-300 transition-colors line-clamp-1">
                 ${escapeHtml(game.title)}
               </h3>
               ${
@@ -531,7 +531,7 @@ function toggleCloak() {
       btn.className = 'p-2 rounded-xl border bg-amber-500/20 border-amber-500/50 text-amber-300 hover:bg-amber-500/30 transition-all cursor-pointer';
     }
   } else {
-    document.title = 'Unblocked Games Portal';
+    document.title = 'Proxy Dash';
     if (btn) {
       btn.className = 'p-2 rounded-xl border bg-slate-800/90 border-slate-700 text-slate-400 hover:text-slate-200 hover:bg-slate-700/80 transition-all cursor-pointer';
     }
@@ -782,7 +782,7 @@ function setupPlayerControls() {
       if (iframeContainer) {
         if (isTheater) {
           iframeContainer.className = 'relative mx-auto w-full transition-all duration-300 rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl flex flex-col max-w-7xl flex-1 min-h-[78vh]';
-          theaterBtn.className = 'p-2 rounded-xl border bg-emerald-500/20 border-emerald-500/40 text-emerald-400 cursor-pointer';
+          theaterBtn.className = 'p-2 rounded-xl border bg-sky-500/20 border-sky-500/40 text-sky-400 cursor-pointer';
         } else {
           iframeContainer.className = 'relative mx-auto w-full transition-all duration-300 rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl flex flex-col max-w-5xl flex-1 min-h-[68vh]';
           theaterBtn.className = 'p-2 rounded-xl border bg-slate-800 border-slate-700 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors cursor-pointer';

@@ -1,6 +1,6 @@
 {
-  "name": "Unblocked Games Portal",
-  "description": "A fast, clean unblocked games portal embedding HTML5 games via JSON iframe configurations with search, categories, favorites, and custom game support.",
+  "name": "Proxy Dash",
+  "description": "Proxy Dash - Fast, lightweight unblocked games & web proxy portal featuring HTML5 games, custom bookmarks, and light blue aurora atmosphere.",
   "requestFramePermissions": ["camera", "microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
