@@ -1,16 +1,16 @@
 [
   {
-    "id": "omoggle-game",
+    "id": "omoggle",
     "title": "Omoggle",
     "category": "Arcade",
-    "description": "Interactive online camera and voice social game experience. Connect, chat, and play live in real-time.",
+    "description": "Live online interactive video, camera, and voice connection game. Chat, play, and meet players worldwide in real-time.",
     "iframe": "<iframe src=\"https://omogglegame.com\" width=\"100%\" height=\"600px\" style=\"border:none;\" allow=\"camera; microphone; display-capture\"></iframe>",
     "url": "https://omogglegame.com",
     "allow": "camera; microphone; display-capture; fullscreen; autoplay",
     "controls": "Camera, Microphone & Mouse",
     "thumbnail": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
     "color": "from-purple-600 to-indigo-800",
-    "badge": "New",
-    "plays": 1520
+    "badge": "Featured",
+    "plays": 2480
   }
 ]
