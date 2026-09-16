@@ -277,10 +277,6 @@
             <span>Favorites</span>
             <span class="text-[11px] px-1.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">0</span>
           </button>
-          <button data-category="Arcade" class="category-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap cursor-pointer border bg-slate-900/80 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white hover:border-slate-700">
-            <span>Arcade</span>
-            <span class="text-[11px] px-1.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">1</span>
-          </button>
         </div>
       </section>
 
@@ -883,18 +879,9 @@
           const categories = [
             { key: 'All', label: 'All Games' },
             { key: 'Favorites', label: 'Favorites' },
-            { key: 'Arcade', label: 'Arcade' },
-            { key: 'Media', label: 'Media' },
-            { key: 'Puzzle', label: 'Puzzle' },
-            { key: 'Retro', label: 'Retro' },
-            { key: 'Action', label: 'Action' },
           ];
 
           const counts = { All: allGames.length, Favorites: favorites.length };
-          allGames.forEach((g) => {
-            const cat = g.category || 'Arcade';
-            counts[cat] = (counts[cat] || 0) + 1;
-          });
 
           container.innerHTML = categories.map((cat) => {
             const isActive = activeCategory === cat.key;
