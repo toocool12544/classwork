@@ -3,7 +3,7 @@
  * Pure JavaScript, standalone compatible for GitHub Pages & Vite
  */
 
-// Initial default catalog with Omoggle and YouTube Player
+// Initial default catalog with Omoggle
 const DEFAULT_GAMES = [
   {
     id: "omoggle",
@@ -18,20 +18,6 @@ const DEFAULT_GAMES = [
     color: "from-purple-600 to-indigo-800",
     badge: "Featured",
     plays: 2480
-  },
-  {
-    id: "youtube-player",
-    title: "YouTube Player",
-    category: "Media",
-    description: "Watch YouTube videos, game walkthroughs, music, and streams in an embedded player.",
-    iframe: '<iframe width="100%" height="450" src="https://www.youtube.com/embed/VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
-    url: "https://www.youtube.com/embed/VIDEO_ID",
-    allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen",
-    controls: "Media Controls & Keyboard",
-    thumbnail: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=80",
-    color: "from-red-600 to-rose-800",
-    badge: "New",
-    plays: 1540
   }
 ];
 
@@ -139,8 +125,8 @@ async function loadGames() {
   loaded.forEach((g) => map.set(g.id, g));
   customs.forEach((g) => map.set(g.id, { ...g, isCustom: true }));
 
-  allGames = Array.from(map.values());
-  favorites = getStoredFavorites();
+  allGames = Array.from(map.values()).filter((g) => g.id !== 'youtube' && g.id !== 'youtube-player');
+  favorites = getStoredFavorites().filter((id) => id !== 'youtube' && id !== 'youtube-player');
   render();
 }
 
@@ -442,13 +428,22 @@ export function openGamePlayer(game) {
   updatePlayerFavButton();
 
   const ytToolbar = document.getElementById('player-youtube-toolbar');
-  const isYouTube = game.id === 'youtube-player' || (game.url && game.url.includes('youtube.com/embed'));
+  const isYouTube = game.id === 'youtube' || game.id === 'youtube-player' || (game.url && (game.url.includes('youtube.com') || game.url.includes('youtu.be')));
+  let targetUrl = game.url;
+
   if (ytToolbar) {
     if (isYouTube) {
       ytToolbar.classList.remove('hidden');
       const ytInput = document.getElementById('youtube-url-input');
+      const ytDirectLink = document.getElementById('yt-direct-external-btn');
+      if (ytDirectLink) {
+        ytDirectLink.href = (game.url && (game.url.startsWith('http://') || game.url.startsWith('https://'))) ? game.url : 'https://www.youtube.com';
+      }
       if (ytInput) {
-        ytInput.value = (game.url && !game.url.includes('VIDEO_ID')) ? game.url : '';
+        ytInput.value = (game.url && !game.url.includes('VIDEO_ID') && !game.url.endsWith('youtube.com') && !game.url.endsWith('youtube.com/')) ? game.url : '';
+      }
+      if (game.url === 'https://www.youtube.com' || game.url === 'https://youtube.com' || game.url === 'http://www.youtube.com') {
+        targetUrl = 'https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?autoplay=0';
       }
     } else {
       ytToolbar.classList.add('hidden');
@@ -466,7 +461,7 @@ export function openGamePlayer(game) {
     if (spinner) spinner.classList.add('hidden');
   };
 
-  iframe.src = game.url;
+  iframe.src = targetUrl;
   modal.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 }
